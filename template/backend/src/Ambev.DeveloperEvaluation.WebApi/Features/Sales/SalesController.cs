@@ -79,7 +79,7 @@ public class SalesController : BaseController
         var command = _mapper.Map<GetSaleCommand>(request.Id);
         var response = await _mediator.Send(command, cancellationToken);
 
-        return base.Ok(new ApiResponseWithData<SaleResponse>
+        return new OkObjectResult(new ApiResponseWithData<SaleResponse>
         {
             Success = true,
             Message = "Sale retrieved successfully",
@@ -135,7 +135,7 @@ public class SalesController : BaseController
         command.Id = id;
         var response = await _mediator.Send(command, cancellationToken);
 
-        return base.Ok(new ApiResponseWithData<SaleResponse>
+        return new OkObjectResult(new ApiResponseWithData<SaleResponse>
         {
             Success = true,
             Message = "Sale updated successfully",
@@ -162,7 +162,7 @@ public class SalesController : BaseController
         var command = _mapper.Map<DeleteSaleCommand>(request.Id);
         await _mediator.Send(command, cancellationToken);
 
-        return base.Ok(new ApiResponse
+        return new OkObjectResult(new ApiResponse
         {
             Success = true,
             Message = "Sale deleted successfully"
@@ -181,7 +181,7 @@ public class SalesController : BaseController
         var command = _mapper.Map<CancelSaleCommand>(id);
         var response = await _mediator.Send(command, cancellationToken);
 
-        return base.Ok(new ApiResponseWithData<SaleResponse>
+        return new OkObjectResult(new ApiResponseWithData<SaleResponse>
         {
             Success = true,
             Message = "Sale cancelled successfully",
@@ -201,7 +201,7 @@ public class SalesController : BaseController
         var command = new CancelSaleItemCommand(id, itemId);
         var response = await _mediator.Send(command, cancellationToken);
 
-        return base.Ok(new ApiResponseWithData<SaleResponse>
+        return new OkObjectResult(new ApiResponseWithData<SaleResponse>
         {
             Success = true,
             Message = "Sale item cancelled successfully",
