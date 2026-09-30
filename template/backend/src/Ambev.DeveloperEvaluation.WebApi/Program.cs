@@ -53,12 +53,16 @@ public class Program
             builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
             var app = builder.Build();
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
             app.UseMiddleware<ValidationExceptionMiddleware>();
 
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+
+                using var scope = app.Services.CreateScope();
+                scope.ServiceProvider.GetRequiredService<DefaultContext>().Database.Migrate();
             }
 
             app.UseHttpsRedirection();
